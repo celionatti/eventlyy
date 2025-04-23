@@ -1,0 +1,18 @@
+{
+    "version": "1.0.0",
+    "debug_mode": false,
+    "bolt_database": {
+        "drivers": "mysql",
+        "host": "127.0.0.1",
+        "username": "root",
+        "password": "",
+        "dbname": "nattiticket"
+    },
+    "app_name": "Natti Nation Ticket",
+    "newsapi": {
+        "news_api_key": "447ecaa671df4b3ba0fb27240a02c337",
+        "news_source_url": "https://newsapi.org/v2/top-headlines",
+        "cache_file": "/cache/news.json",
+        "cache_duration": 3600
+    }
+}

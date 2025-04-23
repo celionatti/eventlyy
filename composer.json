@@ -1,0 +1,24 @@
+{
+    "name": "celionatti/nattiticket",
+    "description": "Website for event ticketing, sitting arrangement, sponosorship and many more.",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PhpStrike\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "celionatti",
+            "email": "amisuusman@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.6",
+        "celionatti/bolt": "^2.0",
+        "tecnickcom/tcpdf": "^6.8",
+        "endroid/qr-code": "^6.0"
+    }
+}

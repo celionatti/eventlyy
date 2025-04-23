@@ -1,0 +1,44 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * ===========================================
+ * ================         ==================
+ * PHPStrike
+ * ================         ==================
+ * ===========================================
+ */
+
+
+use Dotenv\Dotenv;
+use celionatti\Bolt\CLI\BoltCLI;
+use celionatti\Bolt\Database\Database;
+use celionatti\Bolt\Container\Container;
+use celionatti\Bolt\Illuminate\Schema\Schema;
+
+
+require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/vendor/celionatti/bolt/Configs/functions.php';
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+require __DIR__ . '/configs/load.php';
+
+$strike = new BoltCLI();
+
+$container = new Container();
+
+$container->singleton('Database', fn () => Database::getInstance());
+$database = $container->make('Database');
+
+Schema::setConnection($database);
+
+$strike->activeCommands($strike);
+
+// Set interactive mode
+$strike->setInteractiveMode(true);
+
+// Run the strike
+$strike->run();
