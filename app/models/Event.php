@@ -18,7 +18,7 @@ use PhpStrike\app\models\Ticket;
 class Event extends Model
 {
     protected $primaryKey = "event_id";
-    protected $fillable = ['event_id', 'user_id', 'tags', 'category', 'name', 'image', 'description', 'location', 'date_time', 'phone', 'mail', 'socials', 'is_highlighted', 'status'];
+    protected $fillable = ['event_id', 'user_id', 'tags', 'category', 'name', 'image', 'description', 'location', 'date_time', 'phone', 'mail', 'socials', 'is_highlighted', 'status', 'ticket_sale'];
 
     public function other_events($id)
     {

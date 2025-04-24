@@ -99,7 +99,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
               <?php foreach($tickets as $ticket): ?>
               <div class="ticket-type">
                 <span class="ticket-name"><?= $ticket['type'] ?></span>
-                <span class="ticket-price"><?= $ticket['price'] ?></span>
+                <span class="ticket-price"><?= formatCurrency($ticket['price']) ?></span>
               </div>
               <?php endforeach; ?>
             </div>
@@ -135,7 +135,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
             <!-- Host Actions -->
             <h4 class="section-title">Host Actions</h4>
             <div class="action-buttons d-flex flex-wrap gap-2">
-              <a href="<?= URL_ROOT . "/organiser/events/edit/{$event['event_id']}?ut=file" ?>" class="btn btn-edit">
+              <a href="<?= URL_ROOT . "/organiser/events/edit/{$event['event_id']}" ?>" class="btn btn-edit">
                 <i class="fas fa-edit me-2"></i> Edit Event
               </a>
               <button class="btn btn-delete" data-bs-toggle="modal" data-bs-target="#deleteEventModal">
@@ -236,7 +236,9 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger">Delete Event</button>
+        <form action="<?= URL_ROOT . "/organiser/events/delete/{$event['event_id']}" ?>" method="post" class="m-1 d-inline-block">
+          <button type="submit" class="btn btn-danger">Delete Event</button>
+        </form>
       </div>
     </div>
   </div>
