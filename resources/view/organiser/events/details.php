@@ -154,7 +154,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
         <!-- Quick Actions Card -->
         <div class="side-card">
           <h5 class="mb-4">Quick Actions</h5>
-          <a href="#" class="dashboard-link">
+          <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/ticket" ?>" class="dashboard-link">
             <i class="fas fa-ticket-alt"></i> Manage Tickets
           </a>
           <a href="#" class="dashboard-link">

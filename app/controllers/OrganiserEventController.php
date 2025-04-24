@@ -23,6 +23,7 @@ use PhpStrike\app\models\Event;
 use PhpStrike\app\models\Ticket;
 use PhpStrike\app\models\Category;
 use PhpStrike\app\models\Payment;
+use Exception;
 
 
 class OrganiserEventController extends Controller
@@ -457,6 +458,178 @@ class OrganiserEventController extends Controller
         }
         // Redirect back to the events management page in either case
         return redirect($redirectUrl);
+    }
+
+    public function manage_ticket(Request $request, $id)
+    {
+        $event = new Event();
+        $ticket = new Ticket();
+
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+        $data = $event->find($id)->toArray();
+        // $tickets = $ticket->view_tickets($id);
+        $sql = "SELECT * FROM tickets WHERE event_id = :event_id ORDER BY price ASC";
+
+        $tickets = $ticket->rawPaginate($sql, ['event_id' => $id], $page, 12);
+
+        $pagination = new Pagination($tickets['pagination'], URL_ROOT, ['ul' => 'pagination','li' => 'page-item','a' => 'page-link']);
+
+        $view = [
+            'event' => $data,
+            'tickets' => $tickets['data']['result'],
+            'pagination' => $pagination->render("ellipses"),
+        ];
+
+        $this->view->render("organiser/events/tickets/manage", $view);
+    }
+
+    public function create_ticket(Request $request, $id)
+    {
+        $event = new Event();
+
+        $data = $event->find($id)->toArray();
+
+        $view = [
+            'errors' => getFormMessage(),
+            'event' => $data,
+            'ticket' => retrieveSessionData('ticket_data'),
+        ];
+
+        unsetSessionArrayData(['ticket_data']);
+
+        $this->view->render("organiser/events/tickets/create", $view);
+    }
+
+    public function save_ticket(Request $request, $id)
+    {
+        if("POST" !== $request->getMethod()) {
+            toast("error", "Invalid Request Method");
+            return;
+        }
+        $ticket = new Ticket();
+
+        $rules = [
+            'event_id' => 'required',
+            'type' => 'required',
+            'details' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+        ];
+
+        $attributes = $request->loadData();
+        $attributes['ticket_id'] = bv_uuid();
+        $attributes['event_id'] = $id;
+
+        if (!$request->validate($rules, $attributes)) {
+            storeSessionData('ticket_data', $attributes);
+            setFormMessage($request->getErrors());
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/create");
+            return; // Ensure the method exits after redirect
+        }
+
+        if ($ticket->create($attributes)) {
+            // Success: Redirect to manage page
+            toast("success", "Ticket Created Successfully");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+        } else {
+            // Failed to create: Redirect to create page
+            setFormMessage(['error' => 'Ticket creation process failed!']);
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+        }
+    }
+
+    public function edit_ticket(Request $request, $id, $ticket_id)
+    {
+        $event = new Event();
+        $ticket = new Ticket();
+
+        $data = $event->find($id)->toArray();
+        $ticket_data = $ticket->findBy(['ticket_id' => $ticket_id])->toArray();
+
+        $view = [
+            'errors' => getFormMessage(),
+            'event' => $data,
+            'ticket' => $ticket_data ?? retrieveSessionData('ticket_data'),
+        ];
+
+        unsetSessionArrayData(['ticket_data']);
+
+        $this->view->render("organiser/events/tickets/edit", $view);
+    }
+
+    public function update_ticket(Request $request, $id, $ticket_id)
+    {
+        if("POST" !== $request->getMethod()) {
+            toast("error", "Invalid Request Method");
+            return;
+        }
+        $ticket = new Ticket();
+
+        $existingTicket = $ticket->findBy(['ticket_id' => $ticket_id]);
+
+        if (!$existingTicket) {
+            toast("error", "Ticket not found!");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+            return;
+        }
+
+        $rules = [
+            'type' => 'required',
+            'details' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+        ];
+
+        $attributes = $request->loadData();
+
+        // Validate request data
+        if (!$request->validate($rules, $attributes)) {
+            storeSessionData('ticket_data', $attributes);
+            setFormMessage($request->getErrors());
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket/edit/{$ticket_id}");
+            return; // Ensure exit after redirect
+        }
+
+        // Update the event
+        if ($ticket->update($attributes, $ticket_id)) {
+            toast("success", "Ticket Updated Successfully");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+        } else {
+            setFormMessage(['error' => 'Ticket update process failed!']);
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+        }
+    }
+
+    public function delete_ticket(Request $request, $id, $ticket_id)
+    {
+        if("POST" !== $request->getMethod()) {
+            toast("error", "Invalid Request Method");
+            return;
+        }
+
+        $event = new Event();
+        $ticket = new Ticket();
+
+        if(auth_role($this->currentUser['role'], ['admin'])) {
+            $event_data = $event->findBy(['event_id' => $id]);
+        } else {
+            $event_data = $event->findBy(['event_id' => $id, 'user_id' => $this->currentUser['user_id']]);
+        }
+
+        if($event_data) {
+            $ticket_data = $ticket->findBy(['ticket_id' => $ticket_id]);
+            if($ticket_data && $ticket->delete($ticket_id)) {
+                toast("success", "Ticket Deleted Successfully!");
+                redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+            } else {
+                toast("error", "Process Failed");
+                redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+            }
+        } else {
+            toast("error", "Event Not Found");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/ticket");
+        }
     }
 
     private function handleThumbnail(Request $request, $fetchData, $attributes)

@@ -139,8 +139,20 @@ $bolt->router->group(['prefix' => '/organiser/events', []], function($router) {
     $router->get('/edit/{:id}', [OrganiserEventController::class, 'edit']);
     $router->post('/edit/{:id}', [OrganiserEventController::class, 'update']);
     $router->post('/delete/{:id}', [OrganiserEventController::class, 'delete']);
-    $router->get('/details/{:id}/print', [OrganiserEventController::class, 'generatepdf']);
+
+    $router->get('/details/{:id}/ticket', [OrganiserEventController::class, 'manage_ticket']);
+    $router->get('/details/{:id}/ticket/create', [OrganiserEventController::class, 'create_ticket']);
+    $router->post('/details/{:id}/ticket/create', [OrganiserEventController::class, 'save_ticket']);
+    $router->get('/details/{:id}/ticket/edit/{:ticket_id}', [OrganiserEventController::class, 'edit_ticket']);
+    $router->post('/details/{:id}/ticket/edit/{:ticket_id}', [OrganiserEventController::class, 'update_ticket']);
+    $router->post('/details/{:id}/ticket/delete/{:ticket_id}', [OrganiserEventController::class, 'delete_ticket']);
+    // $router->get('/details/{:id}/print', [OrganiserEventController::class, 'generatepdf']);
 });
+
+/** Organiser Ticket Routes */
+// $bolt->router->group(['prefix' => '/organiser/tickets', []], function($router) {
+//     $router->get('/manage', [OrganiserEventController::class, 'manage']);
+// });
 
 /** Admin Routes */
 $bolt->router->get("/admin", [AdminController::class, "dashboard"]);

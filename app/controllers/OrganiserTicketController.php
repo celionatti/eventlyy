@@ -27,5 +27,14 @@ use PhpStrike\app\models\Payment;
 
 class OrganiserTicketController extends Controller
 {
-
+    public function onConstruct(): void
+    {
+        $this->view->setLayout("organiser");
+        $this->view->setTitle("Manage Tickets");
+        $this->setCurrentUser(auth_user());
+        if(!$this->currentUser || $this->currentUser['role'] === "user") {
+            toast("info", "User Unauthorized!");
+            redirect(URL_ROOT . "/auth/login");
+        }
+    }
 }
