@@ -157,7 +157,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
           <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/ticket" ?>" class="dashboard-link">
             <i class="fas fa-ticket-alt"></i> Manage Tickets
           </a>
-          <a href="#" class="dashboard-link">
+          <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/attendees" ?>" class="dashboard-link">
             <i class="fas fa-users"></i> View Attendees
           </a>
           <a href="#" class="dashboard-link">

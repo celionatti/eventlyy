@@ -632,6 +632,23 @@ class OrganiserEventController extends Controller
         }
     }
 
+    public function attendees(Request $request, $id)
+    {
+       $event = new Event();
+
+        $data = $event->find($id)->toArray();
+
+        $view = [
+            'errors' => getFormMessage(),
+            'event' => $data,
+            'ticket' => retrieveSessionData('ticket_data'),
+        ];
+
+        unsetSessionArrayData(['ticket_data']);
+
+        $this->view->render("organiser/events/tickets/attendees", $view);
+    }
+
     private function handleThumbnail(Request $request, $fetchData, $attributes)
     {
         $upload = new Upload("uploads/events");
