@@ -31,11 +31,11 @@ use celionatti\Bolt\Forms\BootstrapForm;
     <div class="row align-items-center">
       <div class="col-md-8 col-lg-9">
         <h1 class="fw-bold mb-2">Attendees</h1>
-        <p class="mb-0">Manage attendees for your Summer Music Festival</p>
+        <p class="mb-0">Manage attendees for your <?= $event['name'] ?></p>
       </div>
       <div class="col-md-4 col-lg-3 text-md-end mt-3 mt-md-0">
-        <a href="#" class="btn" style="background-color: var(--white); color: var(--dark-blue); border-radius: 8px; font-weight: 500;">
-          <i class="fas fa-question-circle me-2"></i> Get Help
+        <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}" ?>" class="btn" style="background-color: var(--white); color: var(--dark-blue); border-radius: 8px; font-weight: 500;">
+          <i class="fas fa-arrow-left me-2"></i> Back to Event
         </a>
       </div>
     </div>
@@ -107,6 +107,7 @@ use celionatti\Bolt\Forms\BootstrapForm;
         </div>
       </div>
 
+      <?php if($ticket_transactions): ?>
       <!-- Table -->
       <div class="table-container">
         <table class="attendees-table">
@@ -115,152 +116,52 @@ use celionatti\Bolt\Forms\BootstrapForm;
               <th>Attendee</th>
               <th>Ticket</th>
               <th>Purchase Date</th>
-              <th>Order ID</th>
+              <th>Ticket Token</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Attendee 1 -->
+            <?php foreach($ticket_transactions as $transaction): ?>
+            <!-- Attendee -->
             <tr>
               <td>
-                <div class="attendee-name">Sarah Johnson</div>
-                <div class="attendee-email">sarah.j@example.com</div>
+                <div class="attendee-name"><?= $transaction['first_name'] . " " . $transaction['last_name'] ?></div>
+                <div class="attendee-email"><?= $transaction['email'] ?></div>
               </td>
               <td>
-                <span class="ticket-type-badge vip">VIP Experience</span>
+                <span class="ticket-type-badge <?= get_status_class($transaction['ticket_type']) ?>"><?= $transaction['ticket_type'] ?></span>
               </td>
-              <td>Apr 22, 2025</td>
-              <td>#ORD-7825</td>
+              <td><?= TimeDateUtils::create($transaction['purchase_date'])->toCustomFormat("M j, Y") ?></td>
+              <td><?= $transaction['ticket_token'] ?></td>
               <td>
-                <span class="status-badge checked-in">Checked In</span>
+                <span class="status-badge <?= get_status_class($transaction['ticket_status']) ?>"><?= $transaction['ticket_status'] ?></span>
               </td>
               <td>
                 <div class="d-flex gap-2">
-                  <button class="action-btn" data-bs-toggle="modal" data-bs-target="#detailsModal" data-attendee="Sarah Johnson">
+                  <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/attendee/{$transaction['transactionId']}" ?>" class="action-btn" data-attendee="Sarah Johnson">
                     <i class="fas fa-eye"></i>
-                  </button>
-                  <button class="action-btn" data-bs-toggle="tooltip" title="Send Email">
-                    <i class="fas fa-envelope"></i>
-                  </button>
+                  </a>
+
                   <button class="action-btn text-danger" data-bs-toggle="tooltip" title="Cancel Ticket">
                     <i class="fas fa-times-circle"></i>
                   </button>
                 </div>
               </td>
             </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
 
       <!-- Pagination -->
       <nav aria-label="Attendee list pagination">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
+        <?= $pagination ?>
       </nav>
+      <?php endif; ?>
     </div>
   </div>
 </section>
-
-<!-- Attendee Details Modal -->
-<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="detailsModalLabel">Attendee Details</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-8">
-            <h5 class="mb-4">Personal Information</h5>
-            <div class="attendee-detail-row">
-              <div class="detail-label">Name</div>
-              <div class="detail-value attendee-name-display">Sarah Johnson</div>
-            </div>
-            <div class="attendee-detail-row">
-              <div class="detail-label">Email</div>
-              <div class="detail-value">sarah.j@example.com</div>
-            </div>
-            <div class="attendee-detail-row">
-              <div class="detail-label">Phone</div>
-              <div class="detail-value">(555) 123-4567</div>
-            </div>
-
-            <div class="ticket-details">
-              <h5 class="mb-3">Ticket Information</h5>
-              <div class="attendee-detail-row">
-                <div class="detail-label">Ticket Type</div>
-                <div class="detail-value">
-                  <span class="ticket-type-badge vip">VIP Experience</span>
-                </div>
-              </div>
-              <div class="attendee-detail-row">
-                <div class="detail-label">Order ID</div>
-                <div class="detail-value">#ORD-7825</div>
-              </div>
-              <div class="attendee-detail-row">
-                <div class="detail-label">Purchase Date</div>
-                <div class="detail-value">Apr 22, 2025</div>
-              </div>
-              <div class="attendee-detail-row">
-                <div class="detail-label">Price</div>
-                <div class="detail-value">$149.99</div>
-              </div>
-              <div class="attendee-detail-row">
-                <div class="detail-label">Status</div>
-                <div class="detail-value">
-                  <span class="status-badge checked-in">Checked In</span>
-                </div>
-              </div>
-              <div class="attendee-detail-row">
-                <div class="detail-label">Check-in Time</div>
-                <div class="detail-value">Apr 26, 2025 10:23 AM</div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="qr-code">
-              <img src="/api/placeholder/200/200" alt="QR Code" class="img-fluid">
-              <p class="mt-2 text-center text-muted small">Attendee QR Code</p>
-            </div>
-
-            <div class="d-grid gap-2 mt-4">
-              <button class="btn btn-primary-action" id="manualCheckInBtn">
-                <i class="fas fa-clipboard-check"></i> Check In
-              </button>
-              <button class="btn btn-outline-action">
-                <i class="fas fa-envelope"></i> Send Email
-              </button>
-              <button class="btn btn-outline-action">
-                <i class="fas fa-print"></i> Print Ticket
-              </button>
-              <button class="btn btn-outline-danger">
-                <i class="fas fa-times-circle"></i> Cancel Ticket
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- QR Scanner Modal -->
 <div class="modal fade" id="scanModal" tabindex="-1" aria-labelledby="scanModalLabel" aria-hidden="true">
@@ -281,25 +182,6 @@ use celionatti\Bolt\Forms\BootstrapForm;
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Confirmation Modal -->
-<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="confirmationModalLabel">Confirm Action</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" id="confirmationModalBody">
-        Are you sure you want to cancel this ticket?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Go Back</button>
-        <button type="button" class="btn btn-danger" id="confirmActionBtn">Yes, Cancel Ticket</button>
       </div>
     </div>
   </div>

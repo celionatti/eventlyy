@@ -77,6 +77,20 @@ class Transaction extends Model
         return $result['result'][0];
     }
 
+    public function ticket_details($id)
+    {
+        $sql = "SELECT t.transaction_id AS transactionId, t.user_id, t.first_name, t.last_name, t.email, t.phone, t.created_at AS purchase_date, t.amount, tk.type AS ticket_type, tu.token AS ticket_token, tu.status AS ticket_status FROM transactions t JOIN ticket_users tu ON t.transaction_id = tu.transaction_id JOIN tickets tk ON t.ticket_id = tk.ticket_id WHERE t.status = :status AND t.transaction_id = :transaction_id";
+
+        $result = $this->query($sql, ['transaction_id' => $id, 'status' => 'confirmed'], "assoc");
+
+        // Check for errors or empty results
+        if (isset($result['error']) || empty($result['result'])) {
+            return []; // Or handle error appropriately
+        }
+
+        return $result['result'][0];
+    }
+
     public function cleanUpOrphanedTransactions()
     {
         $sql = "DELETE FROM transactions WHERE event_id NOT IN (SELECT event_id FROM events)";

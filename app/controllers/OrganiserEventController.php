@@ -21,6 +21,8 @@ use celionatti\Bolt\Pagination\Pagination;
 
 use PhpStrike\app\models\Event;
 use PhpStrike\app\models\Ticket;
+use PhpStrike\app\models\TicketUser;
+use PhpStrike\app\models\Transaction;
 use PhpStrike\app\models\Category;
 use PhpStrike\app\models\Payment;
 use Exception;
@@ -634,19 +636,47 @@ class OrganiserEventController extends Controller
 
     public function attendees(Request $request, $id)
     {
-       $event = new Event();
+        $event = new Event();
+        $ticketUser = new TicketUser();
+        $transaction = new Transaction();
+
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
         $data = $event->find($id)->toArray();
+
+        $sql = "SELECT t.transaction_id AS transactionId, t.user_id, t.first_name, t.last_name, t.email, t.created_at AS purchase_date, tk.type AS ticket_type, tu.token AS ticket_token, tu.status AS ticket_status FROM transactions t JOIN ticket_users tu ON t.transaction_id = tu.transaction_id JOIN tickets tk ON t.ticket_id = tk.ticket_id WHERE t.status = :status AND t.event_id = :event_id";
+
+        $transactions = $transaction->rawPaginate($sql, ['status' => 'confirmed', 'event_id' => $id], $page, 12);
+
+        $pagination = new Pagination($transactions['pagination'], URL_ROOT, ['ul' => 'pagination','li' => 'page-item','a' => 'page-link']);
 
         $view = [
             'errors' => getFormMessage(),
             'event' => $data,
-            'ticket' => retrieveSessionData('ticket_data'),
+            'ticket_transactions' => $transactions['data']['result'],
+            'ticket' => retrieveSessionData('event_data'),
+            'pagination' => $pagination->render("ellipses"),
         ];
 
-        unsetSessionArrayData(['ticket_data']);
+        unsetSessionArrayData(['event_data']);
 
         $this->view->render("organiser/events/tickets/attendees", $view);
+    }
+
+    public function attendee(Request $request, $id, $attendee)
+    {
+        $event = new Event();
+        $transaction = new Transaction();
+
+        $data = $event->find($id)->toArray();
+        $details = $transaction->ticket_details($attendee);
+
+        $view = [
+            'event' => $data,
+            'info' => $details,
+        ];
+
+        $this->view->render("organiser/events/tickets/attendee_details", $view);
     }
 
     private function handleThumbnail(Request $request, $fetchData, $attributes)

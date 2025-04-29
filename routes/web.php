@@ -149,6 +149,7 @@ $bolt->router->group(['prefix' => '/organiser/events', []], function($router) {
 
     // Attendees
     $router->get('/details/{:id}/attendees', [OrganiserEventController::class, 'attendees']);
+    $router->get('/details/{:id}/attendee/{:attendee}', [OrganiserEventController::class, 'attendee']);
     // $router->get('/details/{:id}/print', [OrganiserEventController::class, 'generatepdf']);
 });
 
