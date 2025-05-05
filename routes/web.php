@@ -139,6 +139,7 @@ $bolt->router->group(['prefix' => '/organiser/events', []], function($router) {
     $router->get('/edit/{:id}', [OrganiserEventController::class, 'edit']);
     $router->post('/edit/{:id}', [OrganiserEventController::class, 'update']);
     $router->post('/delete/{:id}', [OrganiserEventController::class, 'delete']);
+    $router->post('/ticket-sales/{:id}', [OrganiserEventController::class, 'ticket_sale']);
 
     $router->get('/details/{:id}/ticket', [OrganiserEventController::class, 'manage_ticket']);
     $router->get('/details/{:id}/ticket/create', [OrganiserEventController::class, 'create_ticket']);
@@ -150,6 +151,7 @@ $bolt->router->group(['prefix' => '/organiser/events', []], function($router) {
     // Attendees
     $router->get('/details/{:id}/attendees', [OrganiserEventController::class, 'attendees']);
     $router->get('/details/{:id}/attendee/{:attendee}', [OrganiserEventController::class, 'attendee']);
+    $router->post('/details/{:id}/attendee/{:attendee}', [OrganiserEventController::class, 'attendee_status']);
     // $router->get('/details/{:id}/print', [OrganiserEventController::class, 'generatepdf']);
 });
 

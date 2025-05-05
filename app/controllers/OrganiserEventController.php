@@ -74,14 +74,15 @@ class OrganiserEventController extends Controller
         if(!$events) {
             toast("error", "Cant access Event!");
             back();
-        } else {
-            $events = $events->toArray();
-            $tickets = $ticket->tickets($id);
         }
+        $events = $events->toArray();
+        $tickets = $ticket->tickets($id);
+        $total_sales = $ticket->total_sales($id);
 
         $view = [
             'event' => $events,
             'tickets' => $tickets,
+            'total_sales' => $total_sales,
         ];
 
         $this->view->render("organiser/events/details", $view);
@@ -462,6 +463,34 @@ class OrganiserEventController extends Controller
         return redirect($redirectUrl);
     }
 
+    public function ticket_sale(Request $request, $id)
+    {
+        if("POST" !== $request->getMethod()) {
+            toast("error", "Invalid Request Method");
+            return;
+        }
+
+        $event = new Event();
+
+        $event_data = $event->find($id)->toArray();
+
+        if(!$event_data) {
+            toast("info", "Event Data Not Found!");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}");
+            return;
+        }
+        // Load and prepare data
+        $attributes = $request->loadData();
+
+        if ($event->update($attributes, $id)) {
+            toast("success", "Ticket Sale Updated Successfully");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}");
+        } else {
+            toast("success", "Ticket Sale process failed!");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}");
+        }
+    }
+
     public function manage_ticket(Request $request, $id)
     {
         $event = new Event();
@@ -677,6 +706,34 @@ class OrganiserEventController extends Controller
         ];
 
         $this->view->render("organiser/events/tickets/attendee_details", $view);
+    }
+
+    public function attendee_status(Request $request, $id, $attendee)
+    {
+        if("POST" !== $request->getMethod()) {
+            toast("error", "Invalid Request Method");
+            return;
+        }
+
+        $ticketUser = new TicketUser();
+
+        $ticket_data = $ticketUser->findBy(['transaction_id' => $attendee])->toArray();
+
+        if(!$ticket_data) {
+            toast("info", "Ticket Data Not Found!");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/attendee/{$attendee}");
+            return;
+        }
+        // Load and prepare data
+        $attributes = $request->loadData();
+
+        if ($ticketUser->update($attributes, $attendee, "transaction_id")) {
+            toast("success", "Ticket Status Updated Successfully");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/attendee/{$attendee}");
+        } else {
+            toast("success", "Ticket Status process failed!");
+            redirect(URL_ROOT . "/organiser/events/details/{$id}/attendee/{$attendee}");
+        }
     }
 
     private function handleThumbnail(Request $request, $fetchData, $attributes)

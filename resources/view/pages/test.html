@@ -1,133 +1,546 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms & Conditions | TicketHub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-green: #1a5d1a;
-            --secondary-green: #4a7856;
-            --light-green: #d4e7d4;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventlyy - Ticket Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --white: #FFFFFF;
+      --primary-green: #77AD78;
+      --dark-blue: #175676;
+      --medium-blue: #4BA3C3;
+      --light-blue: #CCE6F4;
+      --light-gray: #f8f9fa;
+      --border-color: #e0e0e0;
+    }
 
-        .terms-section {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            border: 2px solid var(--light-green);
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      padding-top: 70px;
+      overflow-x: hidden;
+      background-color: #f9f9f9;
+    }
 
-        .terms-nav {
-            position: sticky;
-            top: 20px;
-        }
+    /* Navbar styling */
+    .navbar {
+      background-color: var(--dark-blue);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
 
-        .terms-content h2 {
-            color: var(--primary-green);
-            border-bottom: 2px solid var(--light-green);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
+    .navbar-brand {
+      font-weight: 700;
+      color: var(--white);
+      font-size: 1.8rem;
+    }
 
-        .terms-content h3 {
-            color: var(--secondary-green);
-            margin-top: 2rem;
-        }
+    .nav-link {
+      color: var(--white) !important;
+      font-weight: 500;
+      margin: 0 5px;
+      transition: color 0.3s;
+    }
 
-        .highlight-box {
-            background: var(--light-green);
-            border-left: 4px solid var(--primary-green);
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-        }
-    </style>
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary-green) !important;
+    }
+
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+
+    .dropdown-item:hover {
+      background-color: var(--light-blue);
+    }
+
+    .navbar-toggler {
+      border-color: rgba(255,255,255,0.5);
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* Page header */
+    .page-header {
+      background-color: var(--dark-blue);
+      padding: 30px 0;
+      margin-top: -20px;
+      color: var(--white);
+    }
+
+    /* Ticket details styling */
+    .ticket-details-section {
+      padding: 40px 0;
+    }
+
+    .ticket-container {
+      background-color: var(--white);
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+
+    .ticket-header {
+      background-color: var(--dark-blue);
+      color: var(--white);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .ticket-status {
+      background-color: var(--primary-green);
+      color: white;
+      padding: 5px 15px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .ticket-status.invalid {
+      background-color: #dc3545;
+    }
+
+    .ticket-status.used {
+      background-color: #6c757d;
+    }
+
+    .ticket-body {
+      padding: 25px;
+    }
+
+    .ticket-qr {
+      width: 200px;
+      height: 200px;
+      background-color: var(--light-gray);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .ticket-details-list {
+      margin-bottom: 30px;
+    }
+
+    .ticket-detail-item {
+      margin-bottom: 15px;
+      display: flex;
+    }
+
+    .ticket-detail-label {
+      font-weight: 600;
+      color: var(--dark-blue);
+      min-width: 140px;
+    }
+
+    .ticket-detail-value {
+      color: #333;
+    }
+
+    .ticket-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-green);
+      border-color: var(--primary-green);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background-color: #5f9960;
+      border-color: #5f9960;
+    }
+
+    .btn-outline-primary {
+      border: 1px solid var(--primary-green);
+      color: var(--primary-green);
+      background-color: transparent;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .btn-outline-primary:hover {
+      background-color: var(--primary-green);
+      color: white;
+    }
+
+    .event-image {
+      height: 250px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .event-details {
+      background-color: var(--light-gray);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .event-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .event-meta-item {
+      display: flex;
+      align-items: center;
+      color: #555;
+      font-size: 0.9rem;
+    }
+
+    .event-meta-item i {
+      color: var(--primary-green);
+      margin-right: 8px;
+    }
+
+    .ticket-terms {
+      background-color: var(--light-gray);
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 30px;
+    }
+
+    .ticket-id {
+      font-size: 0.85rem;
+      color: #777;
+      margin-top: 15px;
+    }
+
+    .ticket-preview {
+      background-color: var(--light-gray);
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 30px;
+      border: 1px dashed #ccc;
+    }
+
+    .ticket-preview-inner {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .ticket-type {
+      display: inline-block;
+      background-color: var(--light-blue);
+      color: var(--dark-blue);
+      padding: 3px 10px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 767.98px) {
+      .ticket-qr {
+        width: 150px;
+        height: 150px;
+      }
+
+      .ticket-actions {
+        flex-direction: column;
+      }
+
+      .ticket-detail-item {
+        flex-direction: column;
+      }
+
+      .ticket-detail-label {
+        margin-bottom: 5px;
+      }
+    }
+  </style>
 </head>
-<body class="bg-light-green">
-    <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light-green">
-        <div class="container">
-            <a class="navbar-brand text-primary-green fw-bold" href="#">TicketHub</a>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top" aria-label="Eventlyy">
+    <div class="container">
+      <a class="navbar-brand" href="#">Eventlyy.</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Eventlyy.</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-    </nav>
-
-    <main class="py-5">
-        <div class="container">
-            <div class="row g-5">
-                <!-- Content -->
-                <div class="col-lg-8">
-                    <div class="terms-section p-4 p-md-5">
-                        <div class="terms-content">
-                            <h1 class="text-primary-green mb-4">Terms & Conditions</h1>
-                            <p class="text-secondary-green"><em>Last Updated: [Date]</em></p>
-
-                            <div class="highlight-box">
-                                <p class="text-primary-green mb-0">By using our services, you agree to these terms. Please read them carefully.</p>
-                            </div>
-
-                            <h2>1. Acceptance of Terms</h2>
-                            <p class="text-secondary-green">By accessing or using the TicketHub platform (...)</p>
-
-                            <h2>2. User Obligations</h2>
-                            <h3>2.1 Account Registration</h3>
-                            <p class="text-secondary-green">Users must provide accurate information when (...)</p>
-
-                            <h3>2.2 Ticket Purchases</h3>
-                            <p class="text-secondary-green">All ticket sales are final unless otherwise stated (...)</p>
-
-                            <h2>3. Payment Terms</h2>
-                            <p class="text-secondary-green">We accept various payment methods including (...)</p>
-
-                            <h2>4. Cancellations & Refunds</h2>
-                            <p class="text-secondary-green">Event cancellations are subject to organizer's policy (...)</p>
-
-                            <h2>5. Intellectual Property</h2>
-                            <p class="text-secondary-green">All content on the platform remains property of (...)</p>
-
-                            <h2>6. Limitation of Liability</h2>
-                            <p class="text-secondary-green">TicketHub shall not be liable for (...)</p>
-
-                            <h2>7. Privacy Policy</h2>
-                            <p class="text-secondary-green">Your use of our services is subject to our (...)</p>
-
-                            <h2>8. Amendments</h2>
-                            <p class="text-secondary-green">We reserve the right to modify these terms (...)</p>
-
-                            <h2>9. Governing Law</h2>
-                            <p class="text-secondary-green">These terms shall be governed by (...)</p>
-
-                            <div class="highlight-box mt-5">
-                                <h3 class="text-primary-green">Contact Us</h3>
-                                <p class="text-secondary-green mb-0">
-                                    For questions about these terms:<br>
-                                    Email: legal@tickethub.com<br>
-                                    Address: [Your Company Address]
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Quick Nav -->
-                <div class="col-lg-4">
-                    <div class="terms-nav">
-                        <div class="terms-section p-4">
-                            <h4 class="text-primary-green mb-3">Quick Links</h4>
-                            <div class="nav flex-column">
-                                <a class="nav-link text-secondary-green" href="#acceptance">1. Acceptance</a>
-                                <a class="nav-link text-secondary-green" href="#obligations">2. User Obligations</a>
-                                <a class="nav-link text-secondary-green" href="#payment">3. Payment</a>
-                                <a class="nav-link text-secondary-green" href="#cancellations">4. Cancellations</a>
-                                <a class="nav-link text-secondary-green" href="#liability">6. Liability</a>
-                                <a class="nav-link text-secondary-green" href="#privacy">7. Privacy</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="offcanvas-body">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">My Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Create Event</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Sales</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">My Tickets</a>
+            </li>
+          </ul>
+          <div class="d-flex gap-2">
+            <div class="dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user-circle me-1"></i> John Doe
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Sign Out</a></li>
+              </ul>
             </div>
+          </div>
         </div>
-    </main>
+      </div>
+    </div>
+  </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Header -->
+  <section class="page-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+              <li class="breadcrumb-item"><a href="#" class="text-white opacity-75">My Tickets</a></li>
+              <li class="breadcrumb-item active text-white" aria-current="page">Ticket Details</li>
+            </ol>
+          </nav>
+          <h1 class="fw-bold mb-0">Your Ticket</h1>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+          <a href="#" class="btn btn-outline-light me-2">
+            <i class="fas fa-arrow-left me-2"></i> Back to Tickets
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticket Details Section -->
+  <section class="ticket-details-section">
+    <div class="container">
+      <div class="row">
+        <!-- Ticket Details -->
+        <div class="col-lg-8">
+          <div class="ticket-container">
+            <div class="ticket-header">
+              <h3 class="mb-0">Ticket #T-27589641</h3>
+              <span class="ticket-status">Valid</span>
+            </div>
+            <div class="event-image" style="background-image: url('/api/placeholder/800/400')"></div>
+            <div class="ticket-body">
+              <div class="event-details">
+                <span class="ticket-type">VIP Pass</span>
+                <h4>Summer Music Festival 2025</h4>
+                <div class="event-meta">
+                  <div class="event-meta-item">
+                    <i class="far fa-calendar-alt"></i> April 25, 2025 • 12:00 PM
+                  </div>
+                  <div class="event-meta-item">
+                    <i class="fas fa-map-marker-alt"></i> Central Park, New York
+                  </div>
+                </div>
+              </div>
+
+              <div class="row align-items-center">
+                <div class="col-md-5 text-center mb-4 mb-md-0">
+                  <div class="ticket-qr">
+                    <img src="/api/placeholder/200/200" alt="QR Code">
+                  </div>
+                  <p class="mb-0 text-center"><small>Scan this QR code at the event</small></p>
+                </div>
+                <div class="col-md-7">
+                  <div class="ticket-details-list">
+                    <div class="ticket-detail-item">
+                      <div class="ticket-detail-label">Attendee:</div>
+                      <div class="ticket-detail-value">John Doe</div>
+                    </div>
+                    <div class="ticket-detail-item">
+                      <div class="ticket-detail-label">Ticket Type:</div>
+                      <div class="ticket-detail-value">VIP Pass</div>
+                    </div>
+                    <div class="ticket-detail-item">
+                      <div class="ticket-detail-label">Purchase Date:</div>
+                      <div class="ticket-detail-value">March 15, 2025</div>
+                    </div>
+                    <div class="ticket-detail-item">
+                      <div class="ticket-detail-label">Price:</div>
+                      <div class="ticket-detail-value">$45.00</div>
+                    </div>
+                    <div class="ticket-detail-item">
+                      <div class="ticket-detail-label">Order Number:</div>
+                      <div class="ticket-detail-value">ORD-95641328</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ticket-actions">
+                <button id="downloadPdfBtn" class="btn btn-primary">
+                  <i class="fas fa-download me-2"></i> Download PDF Ticket
+                </button>
+                <button class="btn btn-outline-primary">
+                  <i class="fas fa-envelope me-2"></i> Email Ticket
+                </button>
+                <button class="btn btn-outline-primary">
+                  <i class="fas fa-wallet me-2"></i> Add to Wallet
+                </button>
+              </div>
+
+              <div class="ticket-terms mt-4">
+                <h6 class="fw-bold">Important Information:</h6>
+                <p class="mb-2">This ticket must be presented at the event entrance, either printed or on your mobile device. Each ticket has a unique QR code and can only be used once.</p>
+                <p class="mb-0">For any questions or issues with your ticket, please contact support@eventlyy.com or call (555) 123-4567.</p>
+              </div>
+
+              <div class="ticket-id text-end">
+                Ticket ID: T-27589641-EV12345
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+          <!-- Event Organizer -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Event Organizer</h5>
+              <div class="d-flex align-items-center mt-3">
+                <div class="me-3">
+                  <img src="/api/placeholder/60/60" class="rounded-circle" alt="Organizer" width="60" height="60">
+                </div>
+                <div>
+                  <h6 class="mb-1">SoundWave Productions</h6>
+                  <p class="mb-0 text-muted">Verified Organizer</p>
+                </div>
+              </div>
+              <hr>
+              <div class="mt-2">
+                <a href="#" class="btn btn-outline-primary btn-sm w-100">
+                  <i class="fas fa-envelope me-2"></i> Contact Organizer
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ticket Preview -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Event Location</h5>
+              <div class="mt-3">
+                <div style="height: 200px; background-color: #eee; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                  <span class="text-muted">Map View</span>
+                </div>
+                <h6>Central Park, New York</h6>
+                <p class="text-muted mb-0">East Meadow, Central Park<br>New York, NY 10022</p>
+                <hr>
+                <a href="#" class="btn btn-outline-primary btn-sm w-100">
+                  <i class="fas fa-map-marker-alt me-2"></i> Get Directions
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 text-center">
+          <p class="mb-0">© 2025 Eventlyy. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // PDF Download functionality
+      document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+        // Create a clone of the ticket for PDF generation
+        const ticketContainer = document.querySelector('.ticket-container').cloneNode(true);
+        const ticketPreview = document.createElement('div');
+        ticketPreview.className = 'ticket-preview';
+        ticketPreview.style.width = '210mm'; // A4 width
+
+        // Remove unwanted elements for PDF
+        const actionsSection = ticketContainer.querySelector('.ticket-actions');
+        if (actionsSection) {
+          actionsSection.remove();
+        }
+
+        // Add company logo and branding for the PDF
+        const pdfHeader = document.createElement('div');
+        pdfHeader.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0; color: #175676;">Eventlyy.</h2>
+            <p style="margin: 0; font-size: 12px; color: #666;">Generated on: ${new Date().toLocaleDateString()}</p>
+          </div>
+          <h3 style="margin-bottom: 15px;">Your Ticket: Summer Music Festival 2025</h3>
+        `;
+
+        ticketPreview.appendChild(pdfHeader);
+        ticketPreview.appendChild(ticketContainer);
+
+        // Temporarily add to document for PDF generation
+        ticketPreview.style.position = 'absolute';
+        ticketPreview.style.left = '-9999px';
+        document.body.appendChild(ticketPreview);
+
+        // Generate PDF
+        const opt = {
+          margin: 10,
+          filename: 'ticket-summer-music-festival.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(ticketPreview).set(opt).save().then(() => {
+          // Remove temporary element
+          document.body.removeChild(ticketPreview);
+        });
+      });
+    });
+  </script>
 </body>
 </html>

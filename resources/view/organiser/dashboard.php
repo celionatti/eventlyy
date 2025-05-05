@@ -41,4 +41,72 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
   </div>
 </section>
 
+<section class="form-section">
+  <div class="container">
+    <!-- Stats Cards -->
+  <div class="row mb-4">
+      <div class="col-md-6 col-xl-3 mb-4 mb-xl-0">
+          <div class="card stat-card primary h-100">
+              <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                      <div>
+                          <h6 class="text-muted mb-1">Total Events</h6>
+                          <h3 class="mb-0">24</h3>
+                      </div>
+                      <div class="bg-light-custom p-3 rounded text-primary">
+                          <i class="bi bi-calendar-event fs-4"></i>
+                      </div>
+                  </div>
+                  <p class="small mt-3 mb-0">
+                      <span class="text-success me-1"><i class="fas fa-arrow-up"></i> 12%</span>
+                      <span class="text-muted">from last month</span>
+                  </p>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6 col-xl-3 mb-4 mb-xl-0">
+          <div class="card stat-card secondary h-100">
+              <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                      <div>
+                          <h6 class="text-muted mb-1">Tickets Sold</h6>
+                          <h3 class="mb-0">1,892</h3>
+                      </div>
+                      <div class="bg-light-custom p-3 rounded text-secondary">
+                          <i class="fas fa-ticket-perforated fs-4"></i>
+                      </div>
+                  </div>
+                  <p class="small mt-3 mb-0">
+                      <span class="text-success me-1"><i class="fas fa-arrow-up"></i> 8%</span>
+                      <span class="text-muted">from last month</span>
+                  </p>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-md-6 col-xl-3 mb-4 mb-md-0">
+          <div class="card stat-card accent h-100">
+              <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                      <div>
+                          <h6 class="text-muted mb-1">Revenue</h6>
+                          <h3 class="mb-0">$42,580</h3>
+                      </div>
+                      <div class="bg-light-custom p-3 rounded" style="color: var(--accent);">
+                          <i class="fas fa-cash-coin fs-4"></i>
+                      </div>
+                  </div>
+                  <p class="small mt-3 mb-0">
+                      <span class="text-success me-1"><i class="bi bi-arrow-up"></i> 17%</span>
+                      <span class="text-muted">from last month</span>
+                  </p>
+              </div>
+          </div>
+      </div>
+
+  </div>
+  </div>
+</section>
+
 <?php $this->end() ?>

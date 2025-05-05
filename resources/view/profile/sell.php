@@ -24,13 +24,14 @@ $user = auth_user();
 <?php $this->start('header') ?>
 <style type="text/css">
     .account-nav {
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--dark-blue);
+        color: #fff !important;
         border-radius: 15px;
         padding: 1rem;
     }
 
     .account-nav .nav-link {
-        color: var(--secondary-green);
+        color: var(--primary-green);
         padding: 0.75rem 1.25rem;
         border-radius: 8px;
     }
@@ -126,7 +127,7 @@ $user = auth_user();
 
                         <div class="col-12 text-end">
                             <a href="<?= URL_ROOT . "/profile/{$ticket['user_id']}/tickets" ?>" class="btn btn-danger" type="submit">Back</a>
-                            <button class="btn btn-primary-green" type="submit">Save Changes</button>
+                            <button class="btn btn-primary" type="submit">Save Changes</button>
                         </div>
                       </form>
                     </div>

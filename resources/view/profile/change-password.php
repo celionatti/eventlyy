@@ -24,13 +24,14 @@ $user = auth_user();
 <?php $this->start('header') ?>
 <style type="text/css">
     .account-nav {
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--dark-blue);
+        color: #fff !important;
         border-radius: 15px;
         padding: 1rem;
     }
 
     .account-nav .nav-link {
-        color: var(--secondary-green);
+        color: var(--primary-green);
         padding: 0.75rem 1.25rem;
         border-radius: 8px;
     }
@@ -121,7 +122,7 @@ $user = auth_user();
                                 <?= BootstrapForm::inputField("Confirm Password", "password_confirm", '', ['class' => 'form-control border-primary-green', 'type' => 'password', 'placeholder' => 'Confirm Password'], ['class' => 'col-sm-12 mb-1'], $errors) ?>
 
                                 <div class="col-12 text-end">
-                                    <button class="btn btn-primary-green" type="submit">Change Password</button>
+                                    <button class="btn btn-warning" type="submit">Change Password</button>
                                 </div>
                             </div>
                         </form>

@@ -58,9 +58,9 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
             <?= $event['status'] ?>
           </div>
           <div class="event-host-actions">
-            <button class="btn btn-primary btn-sm me-2">
+            <a href="<?= URL_ROOT . "/events/view/{$event['event_id']}" ?>" class="btn btn-primary btn-sm me-2">
               <i class="fas fa-eye me-1"></i> View Public Page
-            </button>
+            </a>
           </div>
         </div>
       </div>
@@ -117,14 +117,14 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
               <div class="row">
                 <div class="col-6 col-md-3">
                   <div class="stats-item">
-                    <div class="stats-number">245</div>
+                    <div class="stats-number"><?= $total_sales['total_sold_tickets'] ?? 0 ?></div>
                     <div class="stats-label">Tickets Sold</div>
                   </div>
                 </div>
 
                 <div class="col-6 col-md-3">
                   <div class="stats-item">
-                    <div class="stats-number">$9,850</div>
+                    <div class="stats-number"><?= formatCurrency($total_sales['total_amount']) ?></div>
                     <div class="stats-label">Total Sales</div>
                   </div>
                 </div>
@@ -142,9 +142,21 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
                 <i class="fas fa-trash-alt me-2"></i> Delete Event
               </button>
 
-              <button class="btn btn-dark">
-                <i class="fas fa-pause me-2"></i> Pause Ticket Sales
-              </button>
+              <?php if($event['ticket_sale'] === "sell"): ?>
+              <form action="<?= URL_ROOT . "/organiser/events/ticket-sales/{$event['event_id']}" ?>" method="post" onsubmit="return confirm('Are you sure you want to Pause Ticket Sales?');">
+                <input type="hidden" name="ticket_sale" value="pause">
+                <button type="submit" class="btn btn-dark">
+                  <i class="fas fa-pause me-2"></i> Pause Ticket Sales
+                </button>
+              </form>
+              <?php else: ?>
+                <form action="<?= URL_ROOT . "/organiser/events/ticket-sales/{$event['event_id']}" ?>" method="post" onsubmit="return confirm('Are you sure you want to Open Ticket Sales?');">
+                <input type="hidden" name="ticket_sale" value="sell">
+                <button type="submit" class="btn btn-primary-action">
+                  <i class="fas fa-play me-2"></i> Open Ticket Sales
+                </button>
+              </form>
+              <?php endif; ?>
             </div>
           </div>
         </div>
@@ -152,7 +164,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
 
       <div class="col-lg-4 mt-4 mt-lg-0">
         <!-- Quick Actions Card -->
-        <div class="side-card">
+        <div class="side-card mt-3">
           <h5 class="mb-4">Quick Actions</h5>
           <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/ticket" ?>" class="dashboard-link">
             <i class="fas fa-ticket-alt"></i> Manage Tickets
@@ -160,56 +172,11 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
           <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/attendees" ?>" class="dashboard-link">
             <i class="fas fa-users"></i> View Attendees
           </a>
-          <a href="#" class="dashboard-link">
+          <!-- <a href="#" class="dashboard-link">
             <i class="fas fa-share-alt"></i> Promote Event
-          </a>
+          </a> -->
         </div>
 
-        <!-- Event Timeline Card -->
-        <div class="side-card">
-          <h5 class="mb-4">Event Timeline</h5>
-          <div class="timeline">
-            <div class="d-flex mb-3">
-              <div class="me-3">
-                <div class="bg-success rounded-circle" style="width: 12px; height: 12px;"></div>
-                <div class="bg-light" style="width: 2px; height: 30px; margin-left: 5px;"></div>
-              </div>
-              <div>
-                <small class="text-muted">March 1, 2025</small>
-                <div>Event Created</div>
-              </div>
-            </div>
-            <div class="d-flex mb-3">
-              <div class="me-3">
-                <div class="bg-success rounded-circle" style="width: 12px; height: 12px;"></div>
-                <div class="bg-light" style="width: 2px; height: 30px; margin-left: 5px;"></div>
-              </div>
-              <div>
-                <small class="text-muted">March 5, 2025</small>
-                <div>Tickets Published</div>
-              </div>
-            </div>
-            <div class="d-flex mb-3">
-              <div class="me-3">
-                <div class="bg-primary rounded-circle" style="width: 12px; height: 12px;"></div>
-                <div class="bg-light" style="width: 2px; height: 30px; margin-left: 5px;"></div>
-              </div>
-              <div>
-                <small class="text-muted">Today</small>
-                <div>Ticket Sales Active</div>
-              </div>
-            </div>
-            <div class="d-flex">
-              <div class="me-3">
-                <div class="bg-light rounded-circle border" style="width: 12px; height: 12px;"></div>
-              </div>
-              <div>
-                <small class="text-muted">April 25, 2025</small>
-                <div>Event Date</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

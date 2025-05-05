@@ -84,31 +84,39 @@ use celionatti\Bolt\Forms\BootstrapForm;
               <div class="attendee-detail-row">
                 <div class="detail-label">Status</div>
                 <div class="detail-value">
-                  <span class="status-badge text-capitalize <?= get_status_class($info['ticket_status']) ?>"><?= $info['ticket_status'] ?></span>
+                  <span class="status-badge text-capitalize <?= get_status_class($info['ticket_status']) ?>"><?= str_replace("_", " ", $info['ticket_status']) ?></span>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-md-4">
-            <div class="qr-code">
-              <img src="<?= get_image("") ?>" alt="QR Code" class="img-fluid">
+            <div class="qr-code border shadow py-3">
+              <i class="fas fa-qrcode fa-5x text-success"></i>
               <p class="mt-2 text-center text-muted small">Attendee QR Code</p>
             </div>
 
             <div class="d-grid gap-2 mt-4">
+              <?php if($info['ticket_status'] !== "checked_in"): ?>
               <form action="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/attendee/{$info['transactionId']}" ?>" method="post" class="d-inline-block" onsubmit="return confirm('Are you sure you want to check in ticket?');">
+                <input type="hidden" name="status" value="checked_in">
                 <button type="submit" class="btn btn-primary-action w-100" id="manualCheckInBtn">
                 <i class="fas fa-clipboard-check"></i> Check In
                 </button>
               </form>
+              <?php endif; ?>
 
-              <button class="btn btn-outline-action">
+              <button class="btn btn-outline-action disabled">
                 <i class="fas fa-envelope"></i> Send Email
               </button>
 
-              <button class="btn btn-outline-danger">
-                <i class="fas fa-times-circle"></i> Cancel Ticket
-              </button>
+              <?php if($info['ticket_status'] !== "cancelled"): ?>
+              <form action="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/attendee/{$info['transactionId']}" ?>" method="post" class="d-inline-block" onsubmit="return confirm('Are you sure you want to cancel ticket?');">
+                <input type="hidden" name="status" value="cancelled">
+                <button class="btn btn-outline-danger w-100">
+                  <i class="fas fa-times-circle"></i> Cancel Ticket
+                </button>
+              </form>
+              <?php endif; ?>
             </div>
           </div>
         </div>

@@ -24,13 +24,14 @@ $user = auth_user();
 <?php $this->start('header') ?>
 <style type="text/css">
     .account-nav {
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--dark-blue);
+        color: #fff !important;
         border-radius: 15px;
         padding: 1rem;
     }
 
     .account-nav .nav-link {
-        color: var(--secondary-green);
+        color: var(--primary-green);
         padding: 0.75rem 1.25rem;
         border-radius: 8px;
     }
@@ -109,7 +110,7 @@ $user = auth_user();
             <div class="col-lg-9">
                 <div class="bg-white rounded-3 p-4">
                     <h2 class="text-primary-green mb-4">Payment Details</h2>
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <div class="alert alert-success text-primary-green fw-medium">Please kindly provide one bank details, for easy transaction process. you can add as many as you want, but please note, we are not responsible for where the funds is been sent to.</div>
 
                         <form action="<?= URL_ROOT . "/profile/{$user['user_id']}/payment-details/new" ?>" method="post">
@@ -120,17 +121,17 @@ $user = auth_user();
 
                                 <?= BootstrapForm::inputField("Account Name", "account_name", old_value("account_name", $payment["account_name"] ?? ''), ['class' => 'form-control border-primary-green'], ['class' => 'col-sm-12'], $errors) ?>
 
-                                <hr class="my-2">
-
                                 <div class="col-12 text-end">
-                                    <button class="btn btn-primary-green" type="submit">Add Bank</button>
+                                    <button class="btn btn-success" type="submit">Add Bank</button>
                                 </div>
                             </div>
                         </form>
                     </div>
 
+                    <hr class="my-2">
+
                     <!-- Bank Details -->
-                    <div class="mb-5">
+                    <div class="my-5">
                         <div>
                             <?php if($payments): ?>
                             <table class="table table-sm table-success">
@@ -151,7 +152,7 @@ $user = auth_user();
                                         <td>
                                         <?php if($payment['status'] === "disable"): ?>
                                             <form action="<?= URL_ROOT . "/profile/{$payment['payment_id']}/payment-details/status/active" ?>" method="post" class="m-1 d-inline-block" onsubmit="return confirm('Are you sure you want to activate this bank?');">
-                                                <button type="submit" class="btn btn-primary-green btn-sm">
+                                                <button type="submit" class="btn btn-success btn-sm">
                                                     <i class="fa-solid fa-check-circle"></i>
                                                     Activate
                                                 </button>

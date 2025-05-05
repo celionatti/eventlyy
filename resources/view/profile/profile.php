@@ -23,13 +23,14 @@ use celionatti\Bolt\Forms\BootstrapForm;
 <?php $this->start('header') ?>
 <style type="text/css">
     .account-nav {
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--dark-blue);
+        color: #fff !important;
         border-radius: 15px;
         padding: 1rem;
     }
 
     .account-nav .nav-link {
-        color: var(--secondary-green);
+        color: var(--primary-green);
         padding: 0.75rem 1.25rem;
         border-radius: 8px;
     }
@@ -128,7 +129,7 @@ use celionatti\Bolt\Forms\BootstrapForm;
                                 <?php endif; ?>
                                 <?= BootstrapForm::selectField("Country", "country", $user["country"] ?? '', $countriesOpts, ['class' => 'form-control border-primary-green'], ['class' => 'col-sm-5'], $errors) ?>
                                 <div class="col-12 text-end">
-                                    <button class="btn btn-primary-green" type="submit">Save Changes</button>
+                                    <button class="btn btn-primary" type="submit">Save Changes</button>
                                 </div>
                             </div>
                         </form>

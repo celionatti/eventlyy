@@ -82,6 +82,12 @@ class ArticleController extends Controller
     {
         $search = $request->get("query");
 
+        if(empty($search) || is_null($search)) {
+            toast("info", "Search Query is Empty!");
+            back();
+            return;
+        }
+
         $this->view->setTitle("Search Article: {$search}");
 
         $article = new Article();

@@ -1,7 +1,6 @@
 <?php
 
 use celionatti\Bolt\Helpers\FlashMessages\BootstrapFlashMessage;
-use PhpStrike\app\components\LogoComponent;
 
 ?>
 
@@ -39,7 +38,7 @@ use PhpStrike\app\components\LogoComponent;
 
 <body>
 
-    <?= BootstrapFlashMessage::alert() ?>
+    <?= BootstrapFlashMessage::alert(); ?>
     <!-- Your Content goes in here. -->
     <?php $this->content('content'); ?>
 
@@ -48,22 +47,6 @@ use PhpStrike\app\components\LogoComponent;
     <script src="<?= asset("dist/bootstrap/js/bootstrap.bundle.min.js") ?>"></script>
 
     <script>
-        // Back to top button
-      const backToTopButton = document.getElementById('backToTop');
-
-      window.addEventListener('scroll', function() {
-        if (window.pageYOffset > 300) {
-          backToTopButton.classList.add('visible');
-        } else {
-          backToTopButton.classList.remove('visible');
-        }
-      });
-
-      backToTopButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
         toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -85,7 +68,7 @@ use PhpStrike\app\components\LogoComponent;
         <?php if (isset($_SESSION['__bv_flash_toastr'])) : ?>
             <?php
             $toastr = $_SESSION['__bv_flash_toastr'];
-            unset($_SESSION['__bv_flash_toastr']); // Remove the toastr from the session
+            unset($_SESSION['__bv_flash_toastr']);
             ?>
             toastr.<?= $toastr['type'] ?>("<?= $toastr['message'] ?>");
         <?php endif; ?>

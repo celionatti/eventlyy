@@ -74,12 +74,14 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
         <div class="blog-sidebar">
           <div class="mb-4">
             <h5 class="sidebar-heading">Search</h5>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search articles...">
-              <button class="btn btn-primary" type="button">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
+            <form action="<?= URL_ROOT . "/articles/search" ?>" method="GET">
+              <div class="input-group">
+                <input type="text" class="form-control" name="query" placeholder="Search articles...">
+                <button type="submit" class="btn btn-primary" type="button">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
           </div>
 
           <?php if($populars): ?>

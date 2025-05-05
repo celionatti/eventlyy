@@ -46,7 +46,7 @@ use celionatti\Bolt\Forms\BootstrapForm;
 <section class="content-section py-4">
   <div class="container">
     <!-- Stats Cards -->
-    <div class="stats-row">
+    <!-- <div class="stats-row">
       <div class="stat-card tickets">
         <div class="stat-value">626</div>
         <p class="stat-label">Total Tickets Sold</p>
@@ -59,7 +59,7 @@ use celionatti\Bolt\Forms\BootstrapForm;
         <div class="stat-value">127</div>
         <p class="stat-label">Checked In</p>
       </div>
-    </div>
+    </div> -->
 
     <!-- Attendee List -->
     <div class="content-container">
@@ -67,16 +67,16 @@ use celionatti\Bolt\Forms\BootstrapForm;
         <h3 class="section-title mb-0">Attendees List</h3>
 
         <div class="d-flex gap-2 flex-wrap">
-          <button class="btn btn-primary-action" data-bs-toggle="modal" data-bs-target="#scanModal">
+          <!-- <button class="btn btn-primary-action" data-bs-toggle="modal" data-bs-target="#scanModal">
             <i class="fas fa-qrcode"></i> Check-In Attendee
-          </button>
+          </button> -->
           <div class="dropdown export-dropdown">
             <button class="btn btn-outline-action dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="fas fa-download"></i> Export
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="#"><i class="fas fa-file-excel export-icon"></i> Export to Excel</a></li>
-              <li><a class="dropdown-item" href="#"><i class="fas fa-file-csv export-icon"></i> Export to CSV</a></li>
+              <!-- <li><a class="dropdown-item" href="#"><i class="fas fa-file-excel export-icon"></i> Export to Excel</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-file-csv export-icon"></i> Export to CSV</a></li> -->
               <li><a class="dropdown-item" href="#"><i class="fas fa-file-pdf export-icon"></i> Export to PDF</a></li>
             </ul>
           </div>
@@ -86,13 +86,6 @@ use celionatti\Bolt\Forms\BootstrapForm;
       <!-- Filter and Search -->
       <div class="filter-bar">
         <div class="filter-group">
-          <select class="form-select filter-dropdown">
-            <option value="all" selected>All Tickets</option>
-            <option value="general">General Admission</option>
-            <option value="vip">VIP Experience</option>
-            <option value="early">Early Bird Special</option>
-            <option value="workshop">Workshop Pass</option>
-          </select>
           <select class="form-select filter-dropdown">
             <option value="all" selected>All Statuses</option>
             <option value="confirmed">Confirmed</option>

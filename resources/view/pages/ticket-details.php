@@ -40,40 +40,6 @@ if ($transactionId && is_string($transactionId)) {
 
 ?>
 
-<?php $this->start('header') ?>
-<style type="text/css">
-  .success-icon {
-      width: 100px;
-      height: 100px;
-      background: var(--primary-green);
-      border-radius: 50%;
-      animation: bounce 2s;
-  }
-
-  @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-  }
-
-  .ticket-card {
-      border: 2px solid var(--light-green);
-      transition: all 0.3s ease;
-  }
-
-  .timeline {
-      border-left: 3px solid var(--light-green);
-      margin-left: 1rem;
-      padding-left: 2rem;
-  }
-
-  .map-preview {
-      height: 200px;
-      border-radius: 10px;
-      overflow: hidden;
-  }
-</style>
-<?php $this->end() ?>
-
 <!-- The Main content is Render here. -->
 <?php $this->start('content') ?>
 <?= renderComponent(NavComponent::class); ?>
@@ -125,29 +91,6 @@ if ($transactionId && is_string($transactionId)) {
           </div>
       </div>
 
-      <!-- Next Steps -->
-      <div class="row justify-content-center text-start mb-5">
-          <div class="col-lg-8">
-              <h3 class="text-primary-green mb-4">What's Next?</h3>
-              <div class="timeline">
-                  <div class="mb-4">
-                      <h5 class="text-primary-green">1. Ticket Delivery</h5>
-                      <p class="text-secondary-green">Your tickets have been sent to your email and are available in your account</p>
-                  </div>
-
-                  <div>
-                      <h5 class="text-primary-green">2. Entry Instructions</h5>
-                      <p class="text-secondary-green">Present your ticket QR code at the venue entrance</p>
-                  </div>
-
-                  <div>
-                      <h5 class="text-primary-green">3. Identity Verification</h5>
-                      <p class="text-secondary-green">Present a valid means of identification at the venue entrance. </br> ID with name and a photo.</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-
       <!-- Event Details -->
       <div class="row justify-content-center">
           <div class="col-lg-8">
@@ -174,22 +117,6 @@ if ($transactionId && is_string($transactionId)) {
                       </div>
                   </div>
               </div>
-          </div>
-      </div>
-
-      <!-- Social Sharing -->
-      <div class="mt-5">
-          <h4 class="text-primary-green mb-3">Share Your Excitement!</h4>
-          <div class="d-flex justify-content-center gap-3">
-              <a href="<?= URL_ROOT . "/events/view/{$details['eventID']}" ?>" class="btn btn-outline-primary-green">
-                  <i class="fab fa-facebook"></i>
-              </a>
-              <a href="#" class="btn btn-outline-primary-green">
-                  <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="btn btn-outline-primary-green">
-                  <i class="fab fa-whatsapp"></i>
-              </a>
           </div>
       </div>
 

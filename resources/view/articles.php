@@ -56,6 +56,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
         <span class="featured-badge"><?= $featured['tag'] ?></span>
         <h2 class="featured-title"><?= $featured['title'] ?></h2>
         <p class="mb-4"><?= StringUtils::create(htmlspecialchars_decode(nl2br($featured['content'])))->excerpt(150) ?></p>
+        <a href="<?= URL_ROOT . "/articles/view/{$featured['article_id']}" ?>" class="mb-3 btn btn-outline-secondary">Read More <i class="fas fa-arrow-right ms-1"></i></a>
         <div class="featured-meta">
           <img src="<?= get_image("", "avatar") ?>" class="featured-author-img" alt="Author Avatar">
           <span>By <?= $featured['contributors'] ?> • <?= TimeDateUtils::create($featured['created_at'])->toCustomFormat("M j, Y") ?> • <?= calReadTime($featured['content'], "min read") ?></span>

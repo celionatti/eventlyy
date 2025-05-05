@@ -37,9 +37,9 @@ class Ticket extends Model
         return $result['result'];
     }
 
-    public function tickets($id)
+    public function status_tickets($id)
     {
-        $sql = "SELECT * FROM tickets WHERE event_id = :event_id AND quantity > :quantity ORDER BY price ASC";
+        $sql = "SELECT t.* FROM tickets t JOIN events e ON t.event_id = e.event_id WHERE t.event_id = :event_id AND t.quantity > :quantity AND e.ticket_sale != 'pause' ORDER BY t.price ASC";
 
         // Assuming the query method properly handles binding and returns an associative array
         $result = $this->query($sql, ['event_id' => $id, 'quantity' => 0], "assoc");
@@ -50,6 +50,35 @@ class Ticket extends Model
         }
 
         return $result['result'];
+    }
+
+    public function tickets($id)
+    {
+        $sql = "SELECT t.* FROM tickets t JOIN events e ON t.event_id = e.event_id WHERE t.event_id = :event_id AND t.quantity > :quantity ORDER BY t.price ASC";
+
+        // Assuming the query method properly handles binding and returns an associative array
+        $result = $this->query($sql, ['event_id' => $id, 'quantity' => 0], "assoc");
+
+        // Check for errors or empty results
+        if (isset($result['error']) || empty($result['result'])) {
+            return []; // Or handle error appropriately
+        }
+
+        return $result['result'];
+    }
+
+    public function total_sales($id)
+    {
+        $sql = "SELECT t.event_id, SUM(tu.quantity) AS total_sold_tickets, SUM(t.price * tu.quantity) AS total_amount FROM tickets t JOIN ticket_users tu ON t.ticket_id = tu.ticket_id WHERE t.event_id = :event_id GROUP BY t.event_id";
+
+        $result = $this->query($sql, ['event_id' => $id], "assoc");
+
+        // Check for errors or empty results
+        if (isset($result['error']) || empty($result['result'])) {
+            return []; // Or handle error appropriately
+        }
+
+        return $result['result'][0];
     }
 
     public function deduct_quantity(int $quantity_count, $ticket_id)

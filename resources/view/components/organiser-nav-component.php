@@ -40,24 +40,22 @@ $user = auth_user();
               <a class="nav-link <?= (active_nav(2, "events")) ? "active" : "" ?>" href="<?= URL_ROOT . "/organiser/events/manage" ?>">Events</a>
             </li>
             <li class="nav-item my-3">
-              <a class="nav-link <?= (active_nav(2, "discounts")) ? "active" : "" ?>" href="<?= URL_ROOT . "/organiser/discounts/manage" ?>">Discounts</a>
-            </li>
-            <li class="nav-item my-3">
-              <a class="nav-link <?= (active_nav(2, "account")) ? "active" : "" ?>" href="<?= URL_ROOT . "/organiser/account" ?>">Account</a>
+              <a class="nav-link <?= (active_nav(2, "discounts")) ? "active" : "" ?> disabled" href="<?= URL_ROOT . "/organiser/discounts/manage" ?>">Discounts</a>
             </li>
           </ul>
           <div class="d-flex gap-2">
+            <?php if(is_auth()): ?>
             <div class="dropdown mt-3">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-user-circle me-1"></i> John Doe
+              <a class="nav-link dropdown-toggle text-uppercase" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user-circle me-1"></i> <?= $user['first_name'] . " " . $user['last_name'] ?>
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="<?= URL_ROOT . "/profile/{$user['user_id']}/account" ?>">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Sign Out</a></li>
               </ul>
             </div>
+            <?php endif; ?>
           </div>
         </div>
       </div>

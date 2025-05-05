@@ -37,7 +37,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
       </nav>
 
       <div class="mt-4">
-        <span class="event-date-badge"><i class="fas fa-calendar me-2"></i>Apr 20, 2025</span>
+        <span class="event-date-badge"><i class="fas fa-calendar me-2"></i><?= TimeDateUtils::create($event['date_time'])->toCustomFormat("M j, Y") ?></span>
         <span class="event-category-badge"><i class="fas fa-tags me-2"></i><?= $event['tags'] ?></span>
       </div>
       <h1 class="display-5 fw-bold mt-3"><?= $event['name'] ?></h1>
@@ -45,9 +45,9 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
       <p class="lead"><i class="fas fa-clock me-2"></i><?= TimeDateUtils::create($event['date_time'])->toCustomFormat("l, h:i a") ?></p>
 
       <div class="mt-4">
-        <button class="btn btn-share"><i class="fas fa-share-alt me-2"></i>Share</button>
-        <a href="https://api.whatsapp.com/send?text=<?= $event['name'] ?>: <?= URL_ROOT . "/events/view/{$event['event_id']}" ?>"><i class="fa-brands fa-whatsapp btn btn-share"></i></a>
-        <button class="btn btn-share"><i class="far fa-heart me-2"></i>Save</button>
+        <a href="https://twitter.com/intent/tweet?url=<?= URL_ROOT . "/events/view/{$event['event_id']}" ?>&text=<?= $event['name'] ?>" class="btn btn-share"><i class="fa-brands fa-square-x-twitter text-secondary-green"></i></a>
+        <a href="https://api.whatsapp.com/send?text=<?= $event['name'] ?>: <?= URL_ROOT . "/events/view/{$event['event_id']}" ?>" class="btn btn-share"><i class="fa-brands fa-whatsapp"></i></a>
+        <!-- <button class="btn btn-share"><i class="far fa-heart me-2"></i>Save</button> -->
       </div>
     </div>
 </section>
@@ -57,7 +57,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
 <div class="row">
   <!-- Event Details -->
   <div class="col-lg-8">
-    <img src="<?= get_image($event['image'], "default") ?>" class="event-image mb-4" alt="Summer Music Festival">
+    <img src="<?= get_image($event['image'], "default") ?>" class="event-image mb-4" alt="<?= $event['name'] ?>">
 
     <div class="my-5">
       <h3 class="section-heading">About This Event</h3>
@@ -106,7 +106,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
         <h4 class="mb-0">Get Tickets</h4>
       </div>
       <div class="card-body p-2">
-        <p class="text-muted"><i class="fas fa-tag me-2"></i>31% of tickets sold</p>
+        <!-- <p class="text-muted"><i class="fas fa-tag me-2"></i>31% of tickets sold</p> -->
         <?php if($tickets): ?>
         <form action="<?= URL_ROOT . "/events/tickets/{$event['event_id']}/contact" ?>" method="GET">
           <div class="ticket-option">
@@ -120,7 +120,7 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
           </button>
         </form>
         <?php else: ?>
-          <h4>No Ticket Available Yet.</h4>
+          <h4 class="small text-danger text-center mt-3">No Ticket Available Yet.</h4>
         <?php endif; ?>
         <div class="mt-4">
           <p class="small mb-2"><i class="fas fa-shield-alt me-2 text-success"></i>Secure checkout</p>

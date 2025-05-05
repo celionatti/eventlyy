@@ -55,7 +55,7 @@ class EventController extends Controller
         $ticket = new Ticket();
 
         $data = $event->find($id)->toArray();
-        $tickets = $ticket->tickets($id);
+        $tickets = $ticket->status_tickets($id);
 
         $this->view->setTitle("{$data['name']}");
 

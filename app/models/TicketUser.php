@@ -17,7 +17,7 @@ use celionatti\Bolt\Model\Model;
 class TicketUser extends Model
 {
     protected $table = "ticket_users";
-    protected $fillable = ['user_id', 'transaction_id', 'ticket_id', 'quantity', 'token', 'assign_to'];
+    protected $fillable = ['user_id', 'transaction_id', 'ticket_id', 'quantity', 'token', 'assign_to', 'status'];
 
     public function ticket_details($id)
     {

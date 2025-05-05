@@ -24,13 +24,14 @@ $user = auth_user();
 <?php $this->start('header') ?>
 <style type="text/css">
     .account-nav {
-        background: rgba(255, 255, 255, 0.9);
+        background: var(--dark-blue);
+        color: #fff !important;
         border-radius: 15px;
         padding: 1rem;
     }
 
     .account-nav .nav-link {
-        color: var(--secondary-green);
+        color: var(--primary-green);
         padding: 0.75rem 1.25rem;
         border-radius: 8px;
     }
@@ -112,22 +113,7 @@ $user = auth_user();
 
                     <!-- Purchased Tickets -->
                     <div class="mb-5">
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="text-secondary-green">Showing 3 upcoming events</div>
-                            <div class="dropdown">
-                                <button class="btn btn-outline-primary-green dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    Filter: Upcoming
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">All Tickets</a></li>
-                                    <li><a class="dropdown-item" href="#">Upcoming</a></li>
-                                    <li><a class="dropdown-item" href="#">Past Events</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
                         <?php if($tickets): ?>
-
                         <!-- Ticket Cards -->
                         <div class="row g-3">
                         <?php foreach($tickets as $ticket): ?>
@@ -177,7 +163,7 @@ $user = auth_user();
                                             </div>
                                         </div>
                                         <div class="col-md-3 text-end my-1">
-                                            <a href="<?= $downloadUrl ?>" class="btn btn-primary-green mb-2">
+                                            <a href="<?= $downloadUrl ?>" class="btn btn-dark btn-sm px-3 mb-2">
                                                 <i class="fas fa-download me-2"></i>Ticket
                                             </a>
                                             <div class="text-secondary-green small">Order #: <?= $ticket['token'] ?></div>

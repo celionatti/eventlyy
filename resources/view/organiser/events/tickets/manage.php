@@ -329,14 +329,6 @@ use celionatti\Bolt\Illuminate\Utils\StringUtils;
               <span class="detail-label">Available</span>
               <span class="detail-value"><?= $ticket['quantity'] ?></span>
             </div>
-            <div class="detail-item">
-              <span class="detail-label">Sales</span>
-              <span class="detail-value">255 tickets</span>
-            </div>
-            <div class="detail-item">
-              <span class="detail-label">Revenue</span>
-              <span class="detail-value">$11,475.00</span>
-            </div>
           </div>
           <div class="ticket-actions">
             <a href="<?= URL_ROOT . "/organiser/events/details/{$event['event_id']}/ticket/edit/{$ticket['ticket_id']}" ?>" class="btn btn-action btn-edit">
